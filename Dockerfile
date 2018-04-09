@@ -3,7 +3,7 @@ FROM ubuntu:xenial
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PKGURL=https://dl.ubnt.com/unifi/5.7.20/unifi_sysvinit_all.deb
+ENV PKGURL=https://dl.ubnt.com/unifi/5.6.36/unifi_sysvinit_all.deb
 
 RUN apt-get update && \
   mkdir -p /usr/share/man/man1/ && \
