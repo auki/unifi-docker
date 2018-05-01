@@ -42,7 +42,9 @@ EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 3478/udp
 WORKDIR ${BASEDIR}
 
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY prune.sh /prune.sh
+COPY prune.js /prune.js
+RUN chmod +x /entrypoint.sh && chmod +x /prune.sh
 
 # HEALTHCHECK CMD curl -kILs --fail https://localhost:8443 || exit 1
 
