@@ -46,6 +46,6 @@ COPY prune.sh /prune.sh
 COPY prune.js /prune.js
 RUN chmod +x /entrypoint.sh && chmod +x /prune.sh
 
-HEALTHCHECK CMD curl -kILs --fail https://localhost:8443 || exit 1
+#HEALTHCHECK CMD curl -kILs --fail https://localhost:8443 || exit 1
 
 CMD ["/entrypoint.sh"]
