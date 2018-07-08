@@ -8,13 +8,17 @@ ENV PKGURL=https://dl.ubnt.com/unifi/5.8.24/unifi_sysvinit_all.deb
 RUN apt-get update && \
   apt-get install -qy --no-install-recommends \
     ca-certificates \
-    openjdk-8-jre-headless \
     curl && \
+  echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" > /etc/apt/sources.list.d/java.list && \
+  echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" >> /etc/apt/sources.list.d/java.list && \
   echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" > /etc/apt/sources.list.d/mongodb-org.list && \
   echo "deb http://www.ubnt.com/downloads/unifi/debian stable unifi" > /etc/apt/sources.list.d/unifi.list && \
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
   apt-key adv --keyserver keyserver.ubuntu.com --recv 0C49F3730359A14518585931BC711F9BA15703C6 && \
   apt-key adv --keyserver keyserver.ubuntu.com --recv 06E85760C0A52C50 && \
   apt-get update && \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
+  apt-get install -qy oracle-java8-installer oracle-java8-set-default && \
   curl -L -o ./unifi.deb "${PKGURL}" && \
   apt-get purge -qy --auto-remove \
     ca-certificates && \
@@ -22,6 +26,8 @@ RUN apt-get update && \
   rm -f ./unifi.deb && \
   apt-get clean -qy && \
   rm -rf /var/lib/apt/lists/*
+
+RUN java -version
 
 ENV BASEDIR=/usr/lib/unifi \
   DATADIR=/var/lib/unifi \
