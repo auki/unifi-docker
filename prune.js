@@ -3,7 +3,7 @@ var days=30;
 
 // change to false to have the script to really exclude old records
 // from the database. While true, no change at all will be made to the DB
-var dryrun=true;
+var dryrun=false;
 
 var now = new Date().getTime(),
 	time_criteria = now - days * 86400 * 1000,
