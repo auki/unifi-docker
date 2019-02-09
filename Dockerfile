@@ -1,13 +1,13 @@
-# FROM debian:stretch-slim
 FROM ubuntu:xenial
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PKGURL=https://dl.ubnt.com/unifi/5.9.29/unifi_sysvinit_all.deb
+ENV PKGURL=https://dl.ubnt.com/unifi/5.10.12/unifi_sysvinit_all.deb
 
 RUN apt-get update && \
   apt-get install -qy --no-install-recommends \
     ca-certificates \
+    apt-transport-https \
     curl && \
   echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" > /etc/apt/sources.list.d/java.list && \
   echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" >> /etc/apt/sources.list.d/java.list && \
@@ -21,7 +21,8 @@ RUN apt-get update && \
   apt-get install -qy oracle-java8-installer oracle-java8-set-default && \
   curl -L -o ./unifi.deb "${PKGURL}" && \
   apt-get purge -qy --auto-remove \
-    ca-certificates && \
+    ca-certificates \
+    apt-transport-https && \
   apt -qy install mongodb-org ./unifi.deb && \
   rm -f ./unifi.deb && \
   apt-get clean -qy && \
@@ -48,10 +49,13 @@ EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 3478/udp
 WORKDIR ${BASEDIR}
 
 COPY entrypoint.sh /entrypoint.sh
+COPY healthcheck.sh /healthcheck.sh
 COPY prune.sh /prune.sh
 COPY prune.js /prune.js
-RUN chmod +x /entrypoint.sh && chmod +x /prune.sh
+RUN chmod +x /entrypoint.sh && chmod +x /prune.sh && chmod +x /healthcheck.sh
 
-#HEALTHCHECK CMD curl -kILs --fail https://localhost:8443 || exit 1
+HEALTHCHECK CMD /healthcheck.sh || exit 1
 
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["unifi"]
