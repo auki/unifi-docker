@@ -2,7 +2,7 @@ FROM ubuntu:xenial
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PKGURL=https://dl.ubnt.com/unifi/5.10.21/unifi_sysvinit_all.deb
+ENV PKGURL=https://dl.ubnt.com/unifi/5.10.23/unifi_sysvinit_all.deb
 
 RUN apt-get update && \
   apt-get install -qy --no-install-recommends \
