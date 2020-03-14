@@ -1,14 +1,15 @@
-FROM ubuntu:xenial
+FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PKGURL=https://dl.ubnt.com/unifi/5.11.46/unifi_sysvinit_all.deb
+ENV PKGURL=https://dl.ui.com/unifi/5.12.66-2a7dc90946/unifi_sysvinit_all.deb
 
 RUN apt-get update && \
   apt-get install -qy --no-install-recommends \
-    ca-certificates \
-    apt-transport-https \
-    curl && \
+  ca-certificates \
+  apt-transport-https \
+  gnupg2 \
+  curl && \
   echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" > /etc/apt/sources.list.d/mongodb-org.list && \
   echo "deb http://www.ubnt.com/downloads/unifi/debian stable unifi" > /etc/apt/sources.list.d/unifi.list && \
   apt-key adv --keyserver keyserver.ubuntu.com --recv 0C49F3730359A14518585931BC711F9BA15703C6 && \
