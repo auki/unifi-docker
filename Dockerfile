@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PKGURL=https://dl.ui.com/unifi/5.12.66-2a7dc90946/unifi_sysvinit_all.deb
+ENV PKGURL=https://dl.ui.com/unifi/5.12.72/unifi_sysvinit_all.deb
 
 RUN apt-get update && \
   apt-get install -qy --no-install-recommends \
